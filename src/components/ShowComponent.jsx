@@ -1,6 +1,7 @@
 import  { useState,useEffect } from 'react'
 import postService from '../services/postService'
-
+import UpdateModelComponent from './UpdateModelComponent';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 function ShowComponent() {
 
@@ -36,7 +37,8 @@ function ShowComponent() {
               <th>Title</th>
               <th>Date</th>
               <th>Image</th>
-              <th>Delete</th>  
+              <th>Delete</th>
+              <th>Edit</th>  
             </tr>
         </thead>
         <tbody >
@@ -46,7 +48,8 @@ function ShowComponent() {
               <td>{post.title}</td>
               <td>{post.date}</td>
               <td> <img src={'http://localhost:5000/api/postImages/'+post.image} alt="" style={{ width: '100px',height: '100px' }} /> </td>
-              <td><button id={post._id} onClick={(e) => deletePost(post._id,e) } >Delete</button></td>
+              <td><button  id={post._id} onClick={(e) => deletePost(post._id,e) } >Delete</button></td>
+              <td> <UpdateModelComponent id={post._id} title={post.title} date={post.date} /> </td>
             </tr>
 
           ))}
