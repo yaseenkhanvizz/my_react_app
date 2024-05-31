@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import { Modal,Button } from 'react-bootstrap';
+import postService from '../services/postService';
 
 function UpdateModelComponent(props) {
     const [isShow, invokeModal] = useState(false);
@@ -12,6 +13,28 @@ function UpdateModelComponent(props) {
     const initModal = () =>{
         return invokeModal(!isShow);
     }
+    const handleSubmit = async (event)=>{
+      event.preventDefault();
+
+      const formData = new FormData();
+    
+      // Append form data to formData object
+      formData.append('id',id)
+      formData.append('title', title);
+      formData.append('date', date);
+
+      if (selectedFile != '' && selectedFile.length !=0) {
+        formData.append('image', selectedFile);
+      }
+      const response = await postService.update(formData);
+      if (response.data.success == true) {
+        alert(response.data.msg);
+      }else{
+        alert(response.data.msg);
+      }
+      initModal();
+    }
+
     return (
     <>
       <Button variant='success' onClick={initModal} >Edit</Button> 
@@ -20,7 +43,7 @@ function UpdateModelComponent(props) {
         <Modal.Header closeButton onClick={initModal} >
             <Modal.Title>Update Post</Modal.Title>
         </Modal.Header>
-            <form >
+            <form onSubmit={handleSubmit} >
             <Modal.Body>
                 <input type="text" name="title" placeholder='Enter Title' value={title} onChange={event=> setTitle(event.target.value) } required />
                 <br/><br/>

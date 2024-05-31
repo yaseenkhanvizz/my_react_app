@@ -13,7 +13,7 @@ function ShowComponent() {
    
     useEffect(()=>{
          fetchPost();
-    },[]);
+    },[posts]);
     
     const deletePost = async (id,e)=>{
       

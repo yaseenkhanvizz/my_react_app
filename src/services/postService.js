@@ -20,6 +20,15 @@ class Post {
         return axios.get(url);
     }
 
+    update(formData){
+        const url = 'http://localhost:5000/api/update-post';
+        const config = {
+            headers: {
+                'content-Type': 'multipart/form-data',
+            }
+        };
+        return axios.post(url, formData, config);
+    }
 }
 
 export default new Post();
