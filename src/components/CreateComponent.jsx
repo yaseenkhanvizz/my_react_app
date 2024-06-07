@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import postService from '../services/postService';
+import Swal from 'sweetalert2';
 
 function CreateComponent() {
 
@@ -23,7 +24,24 @@ function CreateComponent() {
         // Assuming `postService.create` is a function that sends a POST request with FormData
         const response = await postService.create(formData);
         console.log(response);
-    
+        if (response.data.success == true) {
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: response.data.msg,
+            });
+            setTitle('');
+            setDate('');
+            setImage(null);
+            setMessage('');
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: response.data.msg,
+            });
+        }
         event.target.reset(); // Reset the form after submission
     }
 
@@ -33,12 +51,12 @@ function CreateComponent() {
             <form onSubmit={handleSubmit} >
                 <label>
                     Title:
-                    <input type="text" name='title' value={title} onChange={(e) => setTitle(e.target.value)} required />
+                    <input type="text" class='form-control' name='title' value={title} onChange={(e) => setTitle(e.target.value)} required />
                 </label>
                 <br /><br/>
                 <label>
                     Date:
-                    <input type="date" name="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+                    <input type="date" class='form-control'  name="date" value={date} onChange={(e) => setDate(e.target.value)} required />
                 </label>
                 <br /><br />
                 <label>
@@ -47,9 +65,10 @@ function CreateComponent() {
                 </label>
                 <br /><br />
               
-                <button type="submit">Submit</button>
+                <button type="submit" class='btn btn-dark' >Submit</button>
             </form>
             <p>{message}</p>
+            <a href="/show" className='btn btn-primary' >Go to List</a>
         </div>
     );
 }
